@@ -1,1 +1,36 @@
+name: Compilar APK Android
 
+on:
+  push:
+    branches:
+      - Dev.-Alejandro
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Cachear Buildozer para mayor velocidad
+        uses: actions/cache@v3
+        with:
+          path: |
+            .buildozer_global
+            .buildozer
+          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+
+      - name: Compilar con Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
+
+      - name: Subir APK final
+        uses: actions/upload-artifact@v4
+        with:
+          name: LabubuCalc-APK
+          path: ${{ steps.buildozer.outputs.filename }}
