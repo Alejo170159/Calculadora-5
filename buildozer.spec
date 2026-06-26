@@ -8,16 +8,22 @@ package.domain = org.alejandro
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 
-# Versión y dependencias críticas
+# Versión y dependencias — versiones fijas para evitar conflictos
 version = 0.1
-requirements = python3,kivy==2.3.0,kivymd,pillow
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,pillow
 
-# Configuración de pantalla y arquitectura del celular
+# Android SDK / NDK — versiones estables y probadas
+android.api = 33
+android.minapi = 21
+android.ndk = 25b
+android.sdk = 33
+android.accept_sdk_license = True
+
+# Configuración de pantalla y arquitectura
 orientation = portrait
 fullscreen = 0
 android.archs = arm64-v8a, armeabi-v7a
 android.allow_backup = True
-android.ndk = 25b
 
 [buildozer]
 log_level = 2
