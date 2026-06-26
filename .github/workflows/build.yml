@@ -14,11 +14,19 @@ jobs:
       - name: Descargar el código
         uses: actions/checkout@v4
 
-      - name: Compilar con Buildozer
-        uses: digreatbrian/buildozer-action@v2
+      - name: Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-          buildozer-cmd: buildozer -v android debug
+
+      - name: Instalar dependencias del sistema y Buildozer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev openjdk-17-jdk
+          pip install buildozer cython virtualenv
+
+      - name: Compilar APK
+        run: yes | buildozer -v android debug
 
       - name: Subir APK final
         uses: actions/upload-artifact@v4
